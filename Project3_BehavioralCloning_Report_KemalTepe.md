@@ -77,8 +77,9 @@ The collected driving data had only 8998 center camera images.
 When we remove zero steering angles from the dataset, we had 5079 images. After including left and right camera images, and augmentation of under representative steering angles, the total number of images in the dataset became 15,717. I split 20% of the data for validation. 
 
 Following images are sample images, all images are from center camera.
+<!---[GitHub Logo](/images/logo.png)--->
 
-[Vehicle centered on the road][./examples/normal.jpg] 
+![Vehicle centered on the road](./examples/normal.jpg) 
 [image2]: ./examples/recoveryfrombridge.jpg "Recovery from bridge"
 [image3]: ./examples/recoveryfromleft.jpg "Recovery from left curb"
 [image4]: ./examples/recoveryfromright.jpg "Recovery from right curb"
