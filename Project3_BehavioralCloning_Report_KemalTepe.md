@@ -72,18 +72,19 @@ model.save('model_nvidia.h5')
 ```
 
 
-
-[//]: # (Image References)
-
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
-
 #### 3. Train and validate the model with a training and validation set
+
+The collected driving data had only 8998 center camera images.
+When we remove zero steering angles from the dataset, we had 5079 images. After including left and right camera images, and augmentation of under representative steering angles, the total number of images in the dataset became 15,717. I split 20% of the data for validation. 
+
+Following images are sample images, all images are from center camera.
+
+[image1]: ./examples/normal.jpg "Vehicle centered on the road"
+[image2]: ./examples/recoveryfrombridge.jpg "Recovery from bridge"
+[image3]: ./examples/recoveryfromleft.jpg "Recovery from left curb"
+[image4]: ./examples/recoveryfromright.jpg "Recovery from right curb"
+[image5]: ./examples/leftsharpturn.png "Left sharp turn"
+
 
 #### 4. Test that the model successfully drives around track one without leaving the road
 
