@@ -97,22 +97,3 @@ def process_image(image):
     image=cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return image
 
-'''    
-    
-   
-for i in range(num_bins):
-    if hist[i] < target:
-        keep_probs.append(1.)
-    else:
-        keep_probs.append(1./(hist[i]/target))
-remove_list = []
-
-for i in range(len(angles)):
-    for j in range(num_bins):
-        if angles[i] > bins[j] and angles[i] <= bins[j+1]:
-            # delete from X and y with probability 1 - keep_probs[j]
-            if np.random.rand() > keep_probs[j]:
-                remove_list.append(i)
-image_paths = np.delete(image_paths, remove_list, axis=0)
-angles = np.delete(angles, remove_list)
-'''
