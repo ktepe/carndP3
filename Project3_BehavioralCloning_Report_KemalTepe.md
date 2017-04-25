@@ -1,19 +1,76 @@
-#**Behavioral Cloning** 
+# **Behavioral Cloning** 
 
-##Writeup Template
+## Kemal Tepe, ketepe@gmail.common
 
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+### Objective: To build automous driving model from a simulated driving scenarios using Convolutional Neural Networks (CNN).
 
----
+### Summary:
 
-**Behavioral Cloning Project**
+The idea is to teach a vehicle controller how to drive from actual driving conditions. In this project, training data, images from three different cameras from a simulated vehicle are collected along with steering angles. With this training data, a CNN network is trained and a model is generated using Tensorflow backend with Keras frontend. NVIDIA's published CNN network is sligthly modified to generate the model. The generated model by [model_nvidia.py](./model_nvidia.py) is [model_nvidia.h5](./model_nvidia.h5). The model is used in the simulator and a video clip of the run can be viewed by using movie file [run1.mp4](./run1.mp4), which displays nearly 1.5 lap on the circular course.  
 
-The goals / steps of this project are the following:
+
+### The goals / steps of this project are the following:
 * Use the simulator to collect data of good driving behavior
 * Build, a convolution neural network in Keras that predicts steering angles from images
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
+
+The entire code can be obtained using [here](./model_nvidia.py). The video file is downloaded from [My public dropbox folder](dropbox). Now we will go to important parts of the steps of the project
+
+
+#### 1. Use the simulator to collect data of good driving behavior
+It is key to get used to the simulator. I have used MAC Bookair to collect data since my laptop (Lenovo Helix) did not have dedicated graphic cars to run the simulation efficiently. I followed instructions provided by the Udacity team: 3-laps in counterclockwise direction, 2-laps in counterclockwise direction, 6-8 sharp turn sections, 10-15 recovering from side to center.
+
+After that, the data needs to be processes, and ugmented which I will talk about in the following sections. However, collecting useful data by mimicing an effective driving is key to clone the behavior.
+
+### 2. Build, a convolution neural network in Keras that predicts steering angles from images
+
+Before moving to the final model, which is derived from [NVIDIA paper](./nvidia_model.pdf) cited in the project site.  The model used is given in Table 1.
+
+
+|Table 1: Architecture | | |
+|---------|--------|--------|
+|Layer | Description | Parameters |
+|Layer 1| Lambda| normalization, input=160x320x3 | 
+|Layer 2| Cropping2D| crop rows, top=40, bottom=20, new size=100x320x3 | 
+|Layer 3| CNN 24x5x5 | ELU activiation |
+|Layer 4| CNN 36x5x5 | ELU activation|
+|Layer 5| CNN 48x5x5 | ELU activation|
+|Layer 6| CNN 64x3x3 | ELU activation|
+|Layer 7| CNN 64x3x3 | ELU activation|
+|Layer 8| Flatten ||
+|Layer 9| Dense |100, ELU activation|
+|Layer 9| Dense |50, ELU activation|
+|Layer 10| Dense |10, ELU activation|
+|Layer 11| Dense |1|
+
+The model of the code is given below too.
+
+```python 
+model = Sequential()
+model.add(Lambda(lambda x: x/255.0 -0.5, input_shape=(160,320,3)))
+model.add(Cropping2D(cropping=((40,20),(0,0))))
+model.add(Conv2D(3, (1, 1)))
+model.add(Conv2D(24, (5, 5), strides=(2,2), activation='elu'))
+model.add(Conv2D(36, (5, 5), strides=(2,2), activation='elu'))
+model.add(Conv2D(48, (5, 5), strides=(2,2), activation='elu'))
+model.add(Conv2D(64, (3, 3), strides=(2,2), activation='elu'))
+model.add(Conv2D(64, (3, 3), activation='elu'))
+model.add(Flatten())
+model.add(Dense(100))
+model.add(Activation('elu'))
+model.add(Dense(50))
+model.add(Activation('elu'))
+model.add(Dense(10))
+model.add(Activation('elu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
+steps_per_epoch_=floor(len(train_lines)/batch_size)
+history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, validation_data=validation_generator, validation_steps=len(validation_lines), verbose=1, epochs=5)
+model.save('model_nvidia.h5')
+```
+
 
 
 [//]: # (Image References)
@@ -26,10 +83,15 @@ The goals / steps of this project are the following:
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+#### 3. Train and validate the model with a training and validation set
 
----
+#### 4. Test that the model successfully drives around track one without leaving the road
+
+
+#### 5. Summarize the results with a written report
+
+
+
 ###Files Submitted & Code Quality
 
 ####1. Submission includes all required files and can be used to run the simulator in autonomous mode
@@ -109,6 +171,24 @@ To capture good driving behavior, I first recorded two laps on track one using c
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 
 ![alt text][image3]
+![alt text][image4]
+![alt text][image5]
+
+Then I repeated this process on track two in order to get more data points.
+
+To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
+
+![alt text][image6]
+![alt text][image7]
+
+Etc ....
+
+After the collection process, I had X number of data points. I then preprocessed this data by ...
+
+
+I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
 ![alt text][image4]
 ![alt text][image5]
 
