@@ -16,7 +16,7 @@ The idea is to teach a vehicle controller how to drive from actual driving condi
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-The entire code can be obtained using [here](./model_nvidia.py). The video file is downloaded from [My public dropbox folder](dropbox). Now we will go to important parts of the steps of the project
+The entire code can be obtained using [here](./model_nvidia.py). Now we will go to important parts of the steps of the project
 
 
 #### 1. Use the simulator to collect data of good driving behavior
@@ -118,13 +118,11 @@ The generated model was used with the simulator and the run was recorded. The re
 
 #### 5. Summarize the results with a written report
 
-* Use the simulator to collect data of good driving behavior
-* Build, a convolution neural network in Keras that predicts steering angles from images
-* Train and validate the model with a training and validation set
-* Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
+* The fundamental challenge in the project was to generate and provide training data which can cover most of the scenarios uniformly. Otherwise, the trained model over learn particular scenarios such as driving straigth whenever possible. In order to increase number of scenarios and reduce the influence of zero steering angle, we reduce the scenarios with zero steering from the data set. We also used left and right cameras to increase number of images in the data set. I only augmented (flipping images and steering angles) for scenarios where steering angle is greater than +-0.3. This training set provided a model which effectively drove the car in the simulator.
 
+* Another challenge was to define the right CNN architecture. I tried Lenet first, but it was not as good as nvidia architecture. Nvidia architecture could be an overkill for this project but it was working well and i did not tried another architectures. 
 
+* With more training data the model can be more smoothly drive the vehicle. Also, model can be optimized to reduce training time and model size. These are left as future work.
 
 #### Submission includes all required files and can be used to run the simulator in autonomous mode
 
