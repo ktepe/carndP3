@@ -71,7 +71,6 @@ history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, v
 model.save('model_nvidia.h5')
 ```
 
-
 #### 3. Train and validate the model with a training and validation set
 
 The collected driving data had only 8998 center camera images.
