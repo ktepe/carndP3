@@ -1,6 +1,6 @@
 # Behaviorial Cloning Project
 
-Please refer to [Project2_BehavioralCloning_Report_KemalTepe](./Project2_TrafficSignRecognition_Report_KemalTepe.md) for the implementation details of the code found in this folder.
+Please refer to [Project3_BehavioralCloning_Report_KemalTepe](./Project2_TrafficSignRecognition_Report_KemalTepe.md) for the implementation details of the code found in this folder.
 
 Rest of the document is same as the original explanation provided by the Udacity to the students.
 
