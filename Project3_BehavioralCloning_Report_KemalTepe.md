@@ -78,7 +78,7 @@ When we remove zero steering angles from the dataset, we had 5079 images. After 
 
 Following images are sample images, all images are from center camera.
 
-[image1]: ./examples/normal.jpg "Vehicle centered on the road"
+!["Vehicle centered on the road"]: (./examples/normal.jpg) 
 [image2]: ./examples/recoveryfrombridge.jpg "Recovery from bridge"
 [image3]: ./examples/recoveryfromleft.jpg "Recovery from left curb"
 [image4]: ./examples/recoveryfromright.jpg "Recovery from right curb"
