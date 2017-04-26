@@ -42,7 +42,7 @@ if debug_hist:
 #end of hist
 
 # purge_zero_speed from ket_utility.
-#this is to remove zero speed since no driving at that speed
+# this is to remove zero speed since no driving at that speed
 lines=purge_zero_speed(lines)
 
 if debug_prt:
@@ -57,13 +57,13 @@ if debug_prt:
     print('number of lines after zero steering', len(lines))
 
 # get_left_rigth_aug reduce_zero_steering from ket_utility.
-#this is to include left, right, cameras, as well as to augment
-#steering angles greater than +-0.3 (- less than). 
-#also, this changes the lines format
-#lines[0]=path to image (left, right or center)
-#lines[1]=steering angles
-#lines[2]=True or False, True if the  angle and image match
-#False, if the image needs flipping in the generator to match the angle
+# this is to include left, right, cameras, as well as to augment
+# steering angles greater than +-0.3 (if -, less than). 
+# also, this changes the lines format
+# lines[0]=path to image (left, right or center individually)
+# lines[1]=steering angles
+# lines[2]=True or False, True if the  angle and image match
+# False, if the image needs flipping in the generator to match the angle
 lines=get_left_right_aug(lines)
 
 if debug_prt:
@@ -135,6 +135,7 @@ def generator(input_lines, batch_size):
                 new_images.append(image)
                
             #yield shuffle
+
             yield  np.array(new_images), np.array(measurements)
 
 # compile and train the model using the generator function
@@ -147,28 +148,31 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Cropping2D
 from keras.layers.core import Activation
 from keras.layers.convolutional import Conv2D
-
+from keras import regularizers
+from keras.callbacks import ModelCheckpoint
 #now model slight modification to NVIDIA paper
 
 model = Sequential()
 model.add(Lambda(lambda x: x/255.0 -0.5, input_shape=(160,320,3)))
 model.add(Cropping2D(cropping=((40,20),(0,0))))
 model.add(Conv2D(3, (1, 1)))
-model.add(Conv2D(24, (5, 5), strides=(2,2), activation='elu', W_regularizer=l2(0.001)))
-model.add(Conv2D(36, (5, 5), strides=(2,2), activation='elu', W_regularizer=l2(0.001)))
-model.add(Conv2D(48, (5, 5), strides=(2,2), activation='elu', W_regularizer=l2(0.001)))
-model.add(Conv2D(64, (3, 3), strides=(2,2), activation='elu', W_regularizer=l2(0.001)))
-model.add(Conv2D(64, (3, 3), activation='elu'))
+model.add(Conv2D(24, (5, 5), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
+model.add(Conv2D(36, (5, 5), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
+model.add(Conv2D(48, (5, 5), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
+model.add(Conv2D(64, (3, 3), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
+model.add(Conv2D(64, (3, 3), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
 model.add(Flatten())
-model.add(Dense(100, W_regularizer=l2(0.001)))
+model.add(Dense(100, kernel_regularizer=regularizers.l2(0.001)))
 model.add(Activation('elu'))
-model.add(Dense(50, W_regularizer=l2(0.001)))
+model.add(Dense(50, kernel_regularizer=regularizers.l2(0.001)))
 model.add(Activation('elu'))
-model.add(Dense(10, W_regularizer=l2(0.001)))
+model.add(Dense(10, kernel_regularizer=regularizers.l2(0.001)))
 model.add(Activation('elu'))
 model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam')
 steps_per_epoch_=floor(len(train_lines)/batch_size)
+
+checkpointer = ModelCheckpoint(filepath="weights.hdf5", verbose=1, save_best_only=True)
 history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, validation_data=validation_generator, validation_steps=len(validation_lines), verbose=1, epochs=10)
                       
 model.save('model_nvidia.h5')
