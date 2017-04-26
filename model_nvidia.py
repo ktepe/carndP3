@@ -148,7 +148,6 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Cropping2D
 from keras.layers.core import Activation
 from keras.layers.convolutional import Conv2D
-from keras import regularizers
 from keras.callbacks import ModelCheckpoint
 #now model slight modification to NVIDIA paper
 
@@ -156,21 +155,21 @@ model = Sequential()
 model.add(Lambda(lambda x: x/255.0 -0.5, input_shape=(160,320,3)))
 model.add(Cropping2D(cropping=((40,20),(0,0))))
 model.add(Conv2D(3, (1, 1)))
-model.add(Conv2D(24, (5, 5), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
-model.add(Conv2D(36, (5, 5), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
-model.add(Conv2D(48, (5, 5), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
-model.add(Conv2D(64, (3, 3), strides=(2,2), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
-model.add(Conv2D(64, (3, 3), activation='elu', kernel_regularizer=regularizers.l2(0.001)))
+model.add(Conv2D(24, (5, 5), strides=(2,2), activation='elu'))
+model.add(Conv2D(36, (5, 5), strides=(2,2), activation='elu'))
+model.add(Conv2D(48, (5, 5), strides=(2,2), activation='elu'))
+model.add(Conv2D(64, (3, 3), strides=(2,2), activation='elu'))
+model.add(Conv2D(64, (3, 3), activation='elu'))
 model.add(Flatten())
-model.add(Dense(100, kernel_regularizer=regularizers.l2(0.001)))
+model.add(Dense(100))
 model.add(Activation('elu'))
-model.add(Dense(50, kernel_regularizer=regularizers.l2(0.001)))
+model.add(Dense(50))
 model.add(Activation('elu'))
-model.add(Dense(10, kernel_regularizer=regularizers.l2(0.001)))
+model.add(Dense(10))
 model.add(Activation('elu'))
 model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam')
-steps_per_epoch_=floor(len(train_lines)/batch_size)
+steps_per_epoch_=len(train_lines)
 
 checkpointer = ModelCheckpoint(filepath="weights.hdf5", verbose=1, save_best_only=True)
 history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, validation_data=validation_generator, validation_steps=len(validation_lines), verbose=1, epochs=10)

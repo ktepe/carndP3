@@ -145,7 +145,7 @@ validation_generator = generator(validation_lines, batch_size)
 
 from keras.utils import plot_model
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Cropping2D
+from keras.layers import Flatten, Dense, Lambda, Cropping2D, Dropout
 from keras.layers.core import Activation
 from keras.layers.convolutional import Conv2D
 from keras import regularizers
@@ -183,8 +183,8 @@ steps_per_epoch_=floor(len(train_lines)/batch_size)
 checkpointer = ModelCheckpoint(filepath="weights.hdf5", verbose=1, save_best_only=True)
 history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, validation_data=validation_generator, validation_steps=len(validation_lines), verbose=1, epochs=10)
                       
-model.save('model_nvidia.h5')
-plot_model(model, to_file='model_nvidia.png')
+model.save('model_nvidia_drop.h5')
+plot_model(model, to_file='model_nvidia_drop.png')
 
 if debug_prt:
     print(model.summary())
