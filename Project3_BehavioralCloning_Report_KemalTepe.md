@@ -120,7 +120,7 @@ The generated model was used with the simulator and the run was recorded. The re
 
 * The fundamental challenge in the project was to generate and provide training data which can provide most of the driving scenarios uniformly. Otherwise, the trained model over learn particular scenarios such as driving straight whenever possible. In order to increase number of scenarios and reduce the influence of zero steering angle, we reduce the scenarios with zero steering from the data set. We also used left and right cameras to increase number of images in the data set. I only augmented (flipping images and steering angles) for scenarios where steering angle is greater than +-0.3. This training set provided a model which effectively drove the car in the simulator.
 
-* Another challenge was to define the right CNN architecture. I tried Lenet first, but it was not as good as nvidia architecture. Nvidia architecture could be an overkill for this project but it was working well and i did not tried another architectures. 
+* Another challenge was to define the right CNN architecture. I tried Lenet first, but it was not as good as nvidia architecture. Nvidia architecture could be an overkill for this project but it was working well and I did not tried other architectures. 
 
 * With more training data, the model can be more smoothly drive the vehicle. Also, the model can be optimized to reduce training time and model size. These are left as future work.
 
