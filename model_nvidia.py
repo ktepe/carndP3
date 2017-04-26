@@ -58,7 +58,7 @@ if debug_prt:
 
 # get_left_rigth_aug reduce_zero_steering from ket_utility.
 #this is to include left, right, cameras, as well as to augment
-#steering angles greater than 0.3. 
+#steering angles greater than +-0.3 (- less than). 
 #also, this changes the lines format
 #lines[0]=path to image (left, right or center)
 #lines[1]=steering angles
@@ -66,9 +66,8 @@ if debug_prt:
 #False, if the image needs flipping in the generator to match the angle
 lines=get_left_right_aug(lines)
 
-print('after get left rigth')
-
 if debug_prt:
+    print('after get left rigth')
     print('number of lines after get_left_right', len(lines), len(angles))
     
 #histogram of steering angles after reducing zero degree steering
@@ -143,7 +142,7 @@ batch_size=32
 train_generator = generator(train_lines, batch_size)
 validation_generator = generator(validation_lines, batch_size)
 
-
+from keras.utils import plot_model
 from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Cropping2D
 from keras.layers.core import Activation
@@ -170,8 +169,10 @@ model.add(Activation('elu'))
 model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam')
 steps_per_epoch_=floor(len(train_lines)/batch_size)
-history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, validation_data=validation_generator, validation_steps=len(validation_lines), verbose=1, epochs=5)
+history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, validation_data=validation_generator, validation_steps=len(validation_lines), verbose=1, epochs=10)
                       
 model.save('model_nvidia.h5')
+plot_model(model, to_file='model_nvidia.png')
 
-print(model.summary())
+if debug_prt:
+    print(model.summary())
