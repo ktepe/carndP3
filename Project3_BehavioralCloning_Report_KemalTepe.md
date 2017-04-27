@@ -34,6 +34,7 @@ Before moving to the final model, which is derived from [NVIDIA paper](./nvidia_
 |Layer | Description | Parameters |
 |Layer 1| Lambda| normalization, input=160x320x3 | 
 |Layer 2| Cropping2D| crop rows, top=40, bottom=20, new size=100x320x3 | 
+|Layer 3| CNN 3x1x1 | |
 |Layer 3| CNN 24x5x5 | ELU activation |
 |Layer 4| CNN 36x5x5 | ELU activation|
 |Layer 5| CNN 48x5x5 | ELU activation|
