@@ -71,13 +71,14 @@ history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, v
 model.save('model_nvidia.h5')
 ```
 
+I have tried a model with dropout layers as well as kernel regularizations. However, what I suspect in order to train the model with dropout layers, we need more training data and training epochs. The model may be more reliable, but the amount of training data and training time may increase. Figure 10 in paper titled "Dropout: A simple way to prevent neural networks from overfitting" by Srivista et al. also suggest that dropout would work better with increased data set. 
+
 #### 3. Train and validate the model with a training and validation set
 
 The collected driving data had only 8998 center camera images.
 When we removed 93% of zero steering angles from the dataset first, which left 5079 images. After including left and right camera images, and augmentation of under representative steering angles, the total number of images in the dataset became 15,717. I split 20% of the data for validation. 
 
 Following images are sample images (all images are from center camera).
-<!---[GitHub Logo](/images/logo.png)--->
 
 ![Vehicle centered on the road](./examples/normal.jpg) *Vehicle centered on the  road* 
 
@@ -111,6 +112,7 @@ Epoch 5/5
 12559/12559 [==============================] - 16021s - loss: 8.2740e-04 - val_loss: 0.0132
 ```
 Data was also shuffled randomly before the training.
+
 
 #### 4. Test that the model successfully drives around track one without leaving the road
 
