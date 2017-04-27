@@ -137,5 +137,6 @@ My project includes the following files:
 * ket_utility.py contains functions utilized in the model_nvidia.py file.
 * drive.py for driving the car in autonomous mode
 * model_nvidia.h5 containing a trained convolution neural network 
+* run1.mp4 movie from simulator in the automous mode with model.
 * Project3_BehaviorCloning_Report_KemalTepe.md summarizes the results
 
