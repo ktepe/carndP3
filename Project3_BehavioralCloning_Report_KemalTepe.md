@@ -35,16 +35,16 @@ Before moving to the final model, which is derived from [NVIDIA paper](./nvidia_
 |Layer 1| Lambda| normalization, input=160x320x3 | 
 |Layer 2| Cropping2D| crop rows, top=40, bottom=20, new size=100x320x3 | 
 |Layer 3| CNN 3x1x1 | |
-|Layer 3| CNN 24x5x5 | ELU activation |
-|Layer 4| CNN 36x5x5 | ELU activation|
-|Layer 5| CNN 48x5x5 | ELU activation|
-|Layer 6| CNN 64x3x3 | ELU activation|
+|Layer 4| CNN 24x5x5 | ELU activation |
+|Layer 5| CNN 36x5x5 | ELU activation|
+|Layer 6| CNN 48x5x5 | ELU activation|
 |Layer 7| CNN 64x3x3 | ELU activation|
-|Layer 8| Flatten ||
-|Layer 9| Dense |100, ELU activation|
-|Layer 9| Dense |50, ELU activation|
-|Layer 10| Dense |10, ELU activation|
-|Layer 11| Dense |1|
+|Layer 8| CNN 64x3x3 | ELU activation|
+|Layer 9| Flatten ||
+|Layer 10| Dense |100, ELU activation|
+|Layer 11| Dense |50, ELU activation|
+|Layer 12| Dense |10, ELU activation|
+|Layer 13| Dense |1|
 
 The model of the code is given below too.
 
@@ -72,7 +72,7 @@ history=model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch_, v
 model.save('model_nvidia.h5')
 ```
 
-I have tried a model with dropout layers as well as kernel regularizations. However, what I suspect in order to train the model with dropout layers, we need more training data and training epochs. The model may be more reliable, but the amount of training data and training time may increase. Figure 10 in paper titled "Dropout: A simple way to prevent neural networks from overfitting" by Srivista et al. also suggest that dropout would work better with increased data set. 
+I have tried a model with dropout layers as well as kernel regularizations. However, the model generated without the dropouts and regularizations works the best. What I suspect in order to train the model with dropout layers, we need more training data and training epochs, and I will leave this as future work by including more training data and find right combination of the dropout layers. The model may be more reliable, but the amount of training data and training time may increase. Figure 10 in paper titled "Dropout: A simple way to prevent neural networks from overfitting" by Srivista et al. also suggest that dropout would work better with increased data set. 
 
 #### 3. Train and validate the model with a training and validation set
 
@@ -126,6 +126,9 @@ The generated model was used with the simulator and the run was recorded. The re
 * Another challenge was to define the right CNN architecture. I tried Lenet first, but it was not as good as nvidia architecture. Nvidia architecture could be an overkill for this project but it was working well and I did not tried other architectures. 
 
 * With more training data, the model can be more smoothly drive the vehicle. Also, the model can be optimized to reduce training time and model size. These are left as future work.
+
+* Another important future work is to test the impact of the regularization and dropout layers in the model, as well as finding right combination of the dropout layers. This may required more training data and higher number of epochs which seems to be the trade-off.
+
 
 #### Submission includes all required files and can be used to run the simulator in autonomous mode
 
