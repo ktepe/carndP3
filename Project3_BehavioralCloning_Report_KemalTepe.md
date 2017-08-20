@@ -94,7 +94,7 @@ Following images are sample images (all images are from center camera).
 In order to train the model, we need to provide effective and relatively uniformly distributed scenarios. The histogram of the steering angles are provided in the following figure. 
 
 
-![histogram1](./histogram_withzerosteering.png) *Histogram of the steering angles directly from trained data. It shows that zero angle has dominant angle" 
+![histogram1](./histogram_withzerosteering.png) *Histogram of the steering angles directly from trained data. It shows that zero is the dominant angle" 
 
 ![histogram2](./histogram_with_leftright_aug_zerosteeringreduction.png) *Histogram of the steering angles after reducing numbe rof scenarios with zero degree steering also including left and rigt camera images, as well as augmenting the data set with some under represented steering angles mainly angles greater than +-30 degrees*
 
